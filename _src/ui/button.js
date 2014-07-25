@@ -9,10 +9,11 @@
             if(options.name){
                 var btnName = options.name;
                 var cssRules = options.cssRules;
+                var toolbar = options.toolbar;
                 if(!options.className){
                     options.className =  'edui-for-' + btnName;
                 }
-                options.cssRules = '.edui-default  .edui-for-'+ btnName +' .edui-icon {'+ cssRules +'}'
+                options.cssRules = '.edui-default ' + (toolbar ? ".edui-toolbar" : "") +' .edui-for-'+ btnName +' .edui-icon {'+ cssRules +'}'
             }
             this.initOptions(options);
             this.initButton();

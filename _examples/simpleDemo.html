@@ -1,36 +1,78 @@
 <!DOCTYPE HTML>
 <html>
-<head>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+        <title></title>
+        <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
+        <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
+    </head>
+    <style type="text/css">
+        .bg{
+            background-color:black;
+        }
+    </style>
+    <body>
+        <h1>UEditor简单功能</h1>
+        <!--style给定宽度可以影响编辑器的最终宽度-->
+        <script type="text/plain" id="myEditor">
+            < p > 这里我可以写一些输入提示 < /p>
+        </script>
+        <script type="text/javascript">
+            UE.registerUI('c_btn', function(editor, uiName) {
+                //注册按钮执行时的command命令，使用命令默认就会带有回退操作
+                editor.registerCommand(uiName, {
+                    execCommand: function() {
+                        alert('execCommand:' + uiName)
+                    }
+                });
+                //创建一个button
+                var btn = new UE.ui.Button({
+                    //按钮的名字
+                    name: uiName,
+                    //提示
+                    title: uiName,
+                    toolbar:true,
+                    //添加额外样式，指定icon图标，这里默认使用一个重复的icon
+                    cssRules: 'background-image:url(123.gif)',
+                    //点击时执行的命令
+                    onclick: function() {
+                        //这里可以不用执行命令,做你自己的操作也可
+                        editor.execCommand(uiName);
+                    }
+                });
+                //当点到编辑内容上时，按钮要做的状态反射
+                editor.addListener('selectionchange', function() {
+                    var state = editor.queryCommandState(uiName);
+                    if (state == -1) {
+                        btn.setDisabled(true);
+                        btn.setChecked(false);
+                    }
+                    else {
+                        btn.setDisabled(false);
+                        btn.setChecked(state);
+                    }
+                });
+                //因为你是添加button,所以需要返回这个button
+                return btn;
+            });
 
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-    <title></title>
-    <script type="text/javascript" charset="utf-8" src="../ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="editor_api.js"></script>
-</head>
-<body>
-    <h1>UEditor简单功能</h1>
-
-    <!--style给定宽度可以影响编辑器的最终宽度-->
-    <script type="text/plain" id="myEditor">
-        <p>这里我可以写一些输入提示</p>
-    </script>
-    <script type="text/javascript">
-        UE.getEditor('myEditor',{
-            //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
-            toolbars:[['FullScreen', 'Source', 'Undo', 'Redo','Bold','test']],
-            //focus时自动清空初始化时的内容
-            autoClearinitialContent:true,
-            //关闭字数统计
-            wordCount:false,
-            //关闭elementPath
-            elementPathEnabled:false,
-            //默认的编辑区域高度
-            initialFrameHeight:300
-            //更多其他参数，请参考ueditor.config.js中的配置项
-        })
-    </script>
-
-</body>
-
+            UE.getEditor('myEditor', {
+                //这里可以选择自己需要的工具按钮名称,此处仅选择如下五个
+                toolbars: [
+                    ['FullScreen', 'Source', 'Undo', 'Redo', 'Bold', 'test', 'c_btn']
+                ],
+                //focus时自动清空初始化时的内容
+                autoClearinitialContent: true,
+                //关闭字数统计
+                wordCount: false,
+                //关闭elementPath
+                elementPathEnabled: false,
+                //默认的编辑区域高度
+                initialFrameHeight: 300
+                //更多其他参数，请参考ueditor.config.js中的配置项
+            })
+        </script>
+    </body>
 
 </html>
