@@ -1,4 +1,26 @@
 ###############
+#    c9.io   #
+###############
+*~backup-*
+.c9revisions
+.c9
+.git
+.svn
+.DS_Store
+.bzr
+.cdv
+~.dep
+~.dot
+~.nib
+~.plst
+.hg
+.pc
+*.min.js
+.nakignore
+/dev
+
+
+###############
 #    folder   #
 ###############
 .idea
